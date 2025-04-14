@@ -1,0 +1,53 @@
+﻿@model MVCProject.Models.Project
+
+@{
+    ViewData["Title"] = "Edit Project";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label for="ProjectName">Project Name</label>
+        <input type="text" class="form-control" id="ProjectName" name="ProjectName" value="@Model.ProjectName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ClientName">Client Name</label>
+        <input type="text" class="form-control" id="ClientName" name="ClientName" value="@Model.ClientName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea class="form-control" id="Description" name="Description" required>@Model.Description</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Budget">Budget</label>
+        <input type="number" class="form-control" id="Budget" name="Budget" value="@Model.Budget" required step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label for="StartDate">Start Date</label>
+        <input type="date" class="form-control" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="EndDate">End Date</label>
+        <input type="date" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Status</label>
+        <input type="text" class="form-control" id="Status" name="Status" value="@Model.Status" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ImageUrl">Image URL</label>
+        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" value="@Model.ImageUrl" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<a href="@Url.Action("Index", "Project")" class="btn btn-secondary mt-3">Back to Projects</a>

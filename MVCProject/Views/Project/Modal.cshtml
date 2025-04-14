@@ -1,0 +1,61 @@
+﻿@model MVCProject.Dtos.ProjectRegisteration
+
+<link rel="stylesheet" href="~/css/modal.css" asp-append-version="true">
+
+
+<h2>Create Project</h2>
+
+<form asp-action="Create" method="post">
+    <!-- Modal wrapper -->
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Add Project</h2>
+                <span class="modal-close" onclick="closeModal()">×</span>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div class="form-group">
+                        <label asp-for="ProjectName"></label>
+                        <input asp-for="ProjectName" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ClientName"></label>
+                        <input asp-for="ClientName" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Budget"></label>
+                        <input asp-for="Budget" type="number" class="form-control" />
+                    </div>
+
+                    <div class="form-group date-group">
+                        <div>
+                            <label asp-for="StartDate"></label>
+                            <input asp-for="StartDate" type="date" class="form-control" />
+                        </div>
+                        <div>
+                            <label asp-for="EndDate"></label>
+                            <input asp-for="EndDate" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Status"></label>
+                        <input asp-for="Status" class="form-control" />
+                    </div>
+
+                    <button type="submit" class="btn-submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</form>
+

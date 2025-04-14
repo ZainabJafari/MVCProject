@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Projects";
+}
+<link rel="stylesheet" href="~/css/projects.css" asp-append-version="true">
+
+<div class="projects-container">
+    <div class="projects-header">
+        <h2 class="projects-title">Projects</h2>
+        <button id="openModalBtn" class="add">Add Project</button>
+        <div id="addProjectModal" class="modal" style="display: none;">
+                <!-- Lägg till en knapp för att öppna modalen -->
+        @await Html.PartialAsync("_ProjectModal", new MVCProject.Dtos.ProjectRegisteration())
+    </div>
+    </div>
+
+
+    <div class="filter-links">
+        <a href="#" class="active">ALL (1)</a>
+        <a href="#">STARTED (3)</a>
+        <a href="#">COMPLETED (5)</a>
+    </div>
+
+    <div class="projects-grid">
+        @foreach (var project in Model)
+        {
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div class="project-item">
+
+                    <img src="~/images/Image.jpg" alt="Project Icon" class="project-item-img">
+
+                    <div> 
+                        <h6 class="project-card-title">@project.ProjectName</h6>
+                        <p class="project-card-client">@project.ClientName</p>
+
+                        </div>  
+
+                    </div>
+
+
+                    <div class="dropdown">
+                        <button class="dropdown-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M7.6001 12C7.6001 11.8896 7.68964 11.8 7.8001 11.8C7.91055 11.8 8.0001 11.8896 8.0001 12C8.0001 12.1105 7.91055 12.2 7.8001 12.2C7.68964 12.2 7.6001 12.1105 7.6001 12ZM7.8001 9.80005C6.58507 9.80005 5.6001 10.785 5.6001 12C5.6001 13.2151 6.58507 14.2 7.8001 14.2C9.01512 14.2 10.0001 13.2151 10.0001 12C10.0001 10.785 9.01512 9.80005 7.8001 9.80005ZM16.0001 12C16.0001 11.8896 16.0896 11.8 16.2001 11.8C16.3106 11.8 16.4001 11.8896 16.4001 12C16.4001 12.1105 16.3106 12.2 16.2001 12.2C16.0896 12.2 16.0001 12.1105 16.0001 12ZM16.2001 9.80005C14.9851 9.80005 14.0001 10.785 14.0001 12C14.0001 13.2151 14.9851 14.2 16.2001 14.2C17.4151 14.2 18.4001 13.2151 18.4001 12C18.4001 10.785 17.4151 9.80005 16.2001 9.80005Z"
+                                      fill="#637085" />
+                            </svg>
+                        </button>
+                  <div class="dropdown-content">
+    <!-- Edit -->
+    <div class="dropdown-item">
+        <img src="~/images/Edit.jpg" alt="Edit Icon" class="icon">
+        <a class="btn-edit" href="@Url.Action("Edit", "Project", new { id = project.Id })">Edit</a>
+    </div>
+
+    <!-- Delete -->
+    <div class="dropdown-item">
+        <img src="~/images/Delete.jpg" alt="Delete Icon" class="icon">
+        <form asp-action="Delete" asp-controller="Project" asp-route-id="@project.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this project?');">
+            <button type="submit" class="delete-btn">Delete Project</button>
+        </form>
+    </div>
+</div>
+
+                    </div>
+                </div>
+
+                <div>
+
+                                       <p class="project-card-description">@project.Description</p>
+
+                                       </div>
+            </div>
+
+        }
+
+        @section Scripts {
+            <script src="~/js/modal.js" asp-append-version="true"></script>
+        }
+
+        
+    </div>
+</div>
+
+
