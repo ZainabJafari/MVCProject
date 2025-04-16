@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using MVCProject.Models
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,45 +16,45 @@
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo-style">
-        <img src="~/Images/Logo.jpg"/>
-        <h3>alpha</h3>
+    @if (!(ViewData["HideLayoutParts"] as bool? ?? false) && User.Identity?.IsAuthenticated == true)
+    {
+        <div class="sidebar">
+            <div class="logo-style">
+                <img src="~/Images/Logo.jpg" />
+                <h3>alpha</h3>
+            </div>
+
+            <div class="project-sidebar-style">
+                <img src="~/Images/Projects.jpg" class="sidebar-img-icon" />
+                <a href="@Url.Action("Index", "Project")">Projects</a>
+            </div>
         </div>
 
-        <div class="project-sidebar-style">
-            <img src="~/Images/Projects.jpg" class="sidebar-img-icon" />
-        <a href="@Url.Action("Index", "Project")">Projects</a>
+        <div class="navbar">
+            <div class="user-profile">
+                <div class="dropdown">
+                    <button class="dropdown-toggle bg-white border-0 shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/Images/Setting.jpg" />
+                    </button>
+                    <ul class="dropdown-menu p-2 w-25">
+                        <li class="d-inline-block p-2"><img src="~/Images/Avatar.jpg" /></li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            <li class="nav-item d-inline-block p-2">
+                                <span class="nav-link">@user.FullName</span>
+                            </li>
+                        }
+                        <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="d-inline">
+                            <button type="submit" class="nav-link btn btn-link text-black p-0">Logout</button>
+                        </form>
+
+                    </ul>
+                </div>
+                <img src="~/Images/Avatar.jpg" />
+            </div>
         </div>
-
-    </div>
-
-    <div class="navbar">
-        <div class="user-profile">
-
-            <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="~/Images/Setting.jpg" />
-                </button>
-  <ul class="dropdown-menu">
-                    <li>
-                        <img src="~/Images/Avatar.jpg" />
-                    </li>
-    <li></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div>
-
-
-
-
-            <img src="~/Images/Avatar.jpg"/>
-
-
-        </div>
-    </div>
-
+    }
 
     <!-- Main Content -->
     <div class="main-content">
@@ -61,4 +66,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

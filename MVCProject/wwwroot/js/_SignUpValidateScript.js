@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (!isValid) {
-            event.preventDefault(); // Stoppa formuläret från att skickas om det finns fel
+            event.preventDefault(); 
         }
     });
 });

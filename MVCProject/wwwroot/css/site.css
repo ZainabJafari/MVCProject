@@ -40,7 +40,7 @@ body {
 
 /* Navbar */
 .navbar {
-    width: calc(100% - 240px); /* Tar upp resten av bredden */
+    width: calc(100% - 240px); 
     height: 60px;
     background: #E3E5E8;
     border-bottom: 1px solid white;
@@ -67,14 +67,16 @@ body {
 }
 
 /* Main content */
+/* Main content */
 .main-content {
-    margin-left: 240px;
-    margin-top: 60px;
+    margin-left: 240px; 
+    margin-top: 60px; 
     padding: 20px;
     flex: 1;
     height: calc(100vh - 60px);
-    overflow-y: auto; /* Endast main-content ska scrolla */
+    overflow-y: auto;
 }
+
 
 /* Projektkort */
 .projects-grid {
@@ -106,4 +108,19 @@ body {
 .project-description {
     font-size: 14px;
     color: #6c757d;
+}
+.input-validation-error {
+    border: 2px solid #dc3545; 
+    background-color: #f8d7da;
+}
+
+.field-validation-error {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.field-validation-valid {
+    display: none;
 }

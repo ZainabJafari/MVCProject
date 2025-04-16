@@ -3,6 +3,11 @@ using MVCProject.Models;
 using MVCProject.Services;
 using MVCProject.Dtos;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+
+
+[Authorize]
 
 public class ProjectController : Controller
 {
@@ -13,16 +18,26 @@ public class ProjectController : Controller
         {
             _projectService = projectService;
         }
-    
 
-    // Visa alla projekt
-    public async Task<IActionResult> Index()
+
+    [Authorize]
+
+    public async Task<IActionResult> Index(string status)
     {
-        var projects = await _projectService.GetProjectsAsync();
+        IEnumerable<Project> projects;
+
+        if (string.IsNullOrEmpty(status) || status.ToLower() == "all")
+        {
+            projects = await _projectService.GetProjectsAsync();
+        }
+        else
+        {
+            projects = await _projectService.GetProjectsByStatus(status);
+        }
+
         return View(projects);
     }
 
-    // Visa detaljer för ett projekt
     public async Task<IActionResult> Details(string id)
     {
         if (id == null)
@@ -35,13 +50,12 @@ public class ProjectController : Controller
         return View(project);
     }
 
-    // Visa formulär för att skapa ett projekt
     public IActionResult Create()
     {
         return View();
     }
 
-    // Skapa ett nytt projekt
+    // Skapa ett nytt projekt fick hjälp av ChatGPT genom att skapa en ny projektregistrering 
     [HttpPost]
     public async Task<IActionResult> Create(ProjectRegisteration projectRegisteration)
     {
@@ -68,34 +82,58 @@ public class ProjectController : Controller
     }
 
 
-
-
-    // Visa formulär för att redigera ett projekt
+    // GET: Edit project fick hjälp av ChatGPT för att hantera editering av projekt genom att skicka ett ID
     public async Task<IActionResult> Edit(string id)
     {
+        if (id == null)
+            return BadRequest("Projekt-ID saknas.");
+
         var project = await _projectService.GetProjectByIdAsync(id);
         if (project == null)
             return NotFound("Projektet hittades inte.");
-            return View(project);
- 
+
+        // fick hjälp av ChatGPT för att skapa en ny projektuppdateringsformulär
+        var form = new ProjectUpdateForm
+        {
+            Id = project.Id,
+            ProjectName = project.ProjectName,
+            ClientName = project.ClientName,
+            Description = project.Description,
+            Budget = project.Budget,
+            StartDate = project.StartDate,
+            EndDate = project.EndDate,
+            Status = project.Status,
+            ImageUrl = project.ImageUrl
+        };
+
+        return View(form);
     }
 
-    // Uppdatera ett projekt
+    // POST: Update project
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, ProjectUpdateForm projectUpdateForm)
+    public async Task<IActionResult> Edit(string id, ProjectUpdateForm form)
     {
         if (!ModelState.IsValid)
-            return View(projectUpdateForm);
+        {
+            return View(form);
+        }
 
-        await _projectService.UpdateProjectAsync(id, projectUpdateForm);
-        return RedirectToAction(nameof(Index));
+        try
+        {
+            await _projectService.UpdateProjectAsync(id, form);
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", $"Ett fel uppstod: {ex.Message}");
+            return View(form);
+        }
     }
 
 
 
 
-    // Visa bekräftelsevy för borttagning
+    // fick hjälp av ChatGPT
     public async Task<IActionResult> Delete(string id)
     {
         try
@@ -103,9 +141,9 @@ public class ProjectController : Controller
             var result = await _projectService.DeleteProjectAsync(id);
             if (result)
             {
-                return RedirectToAction(nameof(Index)); // Omdirigera till projektlistan om raderingen lyckas
+                return RedirectToAction(nameof(Index)); // fick hjälp av chatgpt för att komma till projektlistan om raderingen lyckas
             }
-            return NotFound(); // Om något går fel
+            return NotFound(); 
         }
         catch (KeyNotFoundException ex)
         {

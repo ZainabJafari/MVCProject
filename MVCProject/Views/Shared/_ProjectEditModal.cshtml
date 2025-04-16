@@ -1,0 +1,83 @@
+﻿@model MVCProject.Dtos.ProjectUpdateForm
+
+<link rel="stylesheet" href="~/css/Edit.css" asp-append-version="true">
+
+
+<div class="modern-modal-overlay" id="editProjectModal-@Model.Id" style="display: none;">
+    <div class="modern-modal-container">
+        <span class="modern-close" onclick="closeModal('editProjectModal-@Model.Id')">&times;</span>
+
+        <div class="modern-modal-header">
+            <h2>Edit Project</h2>
+            <div class="modal-image">
+                <img src="~/Images/bg.jpg" alt="Project Image" />
+            </div>
+        </div>
+
+        <form asp-action="Edit" method="post" class="modern-form">
+            <input type="hidden" name="Id" value="@Model.Id" />
+
+
+            <div class="form-group">
+                <label>Project Name</label>
+                <input type="text" name="ProjectName" value="@Model.ProjectName" required />
+            </div>
+
+            <div class="form-group">
+                <label>Client Name</label>
+                <input type="text" name="ClientName" value="@Model.ClientName" required />
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="Description" rows="3" required>@Model.Description</textarea>
+            </div>
+
+            <div class="form-group-grid">
+                <div>
+                    <label>Start Date</label>
+                    <input type="date" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+                </div>
+                <div>
+                    <label>End Date</label>
+                    <input type="date" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Budget</label>
+                <input type="number" name="Budget" value="@Model.Budget" step="0.01" required />
+            </div>
+
+            <!-- fick hjäl av chatgpt för att kunna välja pending eller complated -->
+
+            <div class="form-group">
+                <label for="Status">Status</label>
+                <select class="form-control" id="Status" name="Status">
+                    @if (Model.Status == "Pending")
+                    {
+                        <option value="Pending" selected>Pending</option>
+                    }
+                    else
+                    {
+                        <option value="Pending">Pending</option>
+                    }
+
+                    @if (Model.Status == "Completed")
+                    {
+                        <option value="Completed" selected>Completed</option>
+                    }
+                    else
+                    {
+                        <option value="Completed">Completed</option>
+                    }
+                </select>
+
+            </div>
+
+
+            <button type="submit" class="modern-btn">Save</button>
+        </form>
+    </div>
+</div>
+

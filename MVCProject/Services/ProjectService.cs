@@ -13,8 +13,8 @@ public class ProjectService(IProjectRepository projectRepository)
     // Hämtar alla projekt
     public async Task<IEnumerable<Project>> GetProjectsAsync()
     {
-        var projects = await _projectRepository.GetAllAsync(); // Hämta alla projekt från repository
-        return projects.Select(p => ProjectFactory.Create(p)); // Skapa en Project DTO från varje ProjectEntity
+        var projects = await _projectRepository.GetAllAsync(); 
+        return projects.Select(p => ProjectFactory.Create(p)); 
     }
 
     // Hämtar projekt genom ID
@@ -25,7 +25,7 @@ public class ProjectService(IProjectRepository projectRepository)
             throw new ArgumentException("Ogiltigt ID-format", nameof(id));
         }
 
-        var project = await _projectRepository.GetAsync(x => x.Id == id); // Jämför med Guid
+        var project = await _projectRepository.GetAsync(x => x.Id == id); 
         if (project == null)
         {
             throw new KeyNotFoundException($"Projekt med ID {id} hittades inte.");
@@ -34,21 +34,26 @@ public class ProjectService(IProjectRepository projectRepository)
         return ProjectFactory.Create(project); // Skapa DTO från ProjectEntity
     }
 
+
     // Skapar ett nytt projekt
+    // fick hjälp av ChatGPT för att skapa ett nytt projekt,  Omvandla från DTO till entity och anropa repository för att skapa projekt
     public async Task<Project> CreateProjectAsync(ProjectRegisteration projectRegisteration)
     {
-        var projectEntity = ProjectFactory.Create(projectRegisteration); // Omvandla från DTO till entity
-        await _projectRepository.CreateAsync(projectEntity); // Anropa repository för att skapa projekt
+        var projectEntity = ProjectFactory.Create(projectRegisteration); 
+        await _projectRepository.CreateAsync(projectEntity); 
         Console.WriteLine("data skapades");
 
-        return ProjectFactory.Create(projectEntity); // Skapa DTO från entity och returnera
+        return ProjectFactory.Create(projectEntity); 
     }
 
+
+
     // Uppdaterar ett projekt
+    // fick hjälp av ChatGPT för att uppdatera ett projekt, Omvandla från DTO till entity, Anropa repository för att uppdatera projekt
     public async Task UpdateProjectAsync(string id, ProjectUpdateForm projectUpdateForm)
     {
-        var projectEntity = ProjectFactory.Create(projectUpdateForm); // Omvandla från DTO till entity
-        await _projectRepository.UpdateAsync(projectEntity); // Anropa repository för att uppdatera projekt
+        var projectEntity = ProjectFactory.Create(projectUpdateForm); 
+        await _projectRepository.UpdateAsync(projectEntity); 
     }
 
     public async Task<bool> DeleteProjectAsync(string id)
@@ -66,6 +71,14 @@ public class ProjectService(IProjectRepository projectRepository)
         }
 
         return isDeleted;
+    }
+
+    public async Task<IEnumerable<Project>> GetProjectsByStatus(string status)
+    {
+        var allProjects = await _projectRepository.GetAllAsync();
+        return allProjects
+            .Where(p => string.Equals(p.Status, status, StringComparison.OrdinalIgnoreCase))
+            .Select(ProjectFactory.Create);
     }
 
 }

@@ -29,7 +29,7 @@ namespace MVCProject.Data.Repositories
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error creating project entity: " + ex.Message);
-                throw; // Kasta vidare undantaget så att det syns i loggarna
+                throw; 
             }
         }
 

@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "";
 }
+@{
+    ViewData["HideLayoutParts"] = true;
+}
+
 
 <h1>@ViewData["Title"]</h1>
 
@@ -45,10 +49,11 @@
         <div class="text-center mt-4">
             <p>
                 Already have an account?
-                <a asp-controller="Account" asp-action="Login" class="text-primary text-decoration-none">Login</a>.
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary text-decoration-none">Login</a>.
             </p>
         </div>
 
+   
 
 
     </div>

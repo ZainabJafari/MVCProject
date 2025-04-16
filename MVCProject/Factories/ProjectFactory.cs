@@ -10,7 +10,7 @@ public class ProjectFactory
 
     public static ProjectEntity Create(ProjectRegisteration projectRegisteration) => new()
     {
-        Id = Guid.NewGuid().ToString(),  // Se till att ett unikt ID skapas
+        Id = Guid.NewGuid().ToString(),  
         ProjectName = projectRegisteration.ProjectName,
         ClientName = projectRegisteration.ClientName,
         Description = projectRegisteration.Description,

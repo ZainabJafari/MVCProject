@@ -20,7 +20,7 @@
 
     .projects-tabs a {
         text-decoration: none;
-        color: #007bff;
+        color: black;
         font-weight: 600;
     }
 
@@ -170,3 +170,13 @@
 .project-card-description {
     padding-bottom: 40px;
 }
+.status-style{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
+    color: red;
+}
+    .status-style:active {
+        color: dodgerblue;
+    }
