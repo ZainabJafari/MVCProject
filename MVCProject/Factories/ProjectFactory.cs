@@ -25,7 +25,7 @@ public class ProjectFactory
     {
         return new ProjectEntity
         {
-            Id = projectUpdateForm.Id,// Nytt GUID för nya projekt
+            Id = projectUpdateForm.Id,
             ProjectName = projectUpdateForm.ProjectName,
             ClientName = projectUpdateForm.ClientName,
             Description = projectUpdateForm.Description,

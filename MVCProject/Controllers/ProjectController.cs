@@ -130,9 +130,6 @@ public class ProjectController : Controller
         }
     }
 
-
-
-
     // fick hjälp av ChatGPT
     public async Task<IActionResult> Delete(string id)
     {
